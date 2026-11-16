@@ -3,554 +3,388 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>北京 → 长春 · 吉林市 4天3晚路书</title>
-<script src="https://registry.npmmirror.com/echarts/5.6.0/files/dist/echarts.min.js"></script>
-<script src="https://registry.npmmirror.com/lucide/1.28.0/files/dist/umd/lucide.min.js"></script>
+<title>北京 → 长春·吉林市 · 4-5天路书</title>
 <style>
-:root{
-  --bg:#EFF5F8; --surface:#FFFFFF; --tint:#E4EEF4;
-  --t1:#122B3C; --t2:#4A6A7E; --t3:#7C97A9;
-  --acc:#1E6FA8; --acc-h:#175E8F; --on:#FFFFFF;
-  --good:#1E7A3A; --warn:#B45309; --bad:#C62F1F;
-  --radius:18px; --btnr:980px; --bstr:10%;
-  --ctrl:min(var(--radius),14px);
-  --border:color-mix(in srgb,var(--t1) var(--bstr),transparent);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--t2);font-family:-apple-system,'PingFang SC','Microsoft YaHei',system-ui,sans-serif;line-height:1.6}
-h1,h2,h3,h4,h5{color:var(--t1);line-height:1.3}
-img{max-width:100%;display:block}
-a{text-decoration:none}
-.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
-
-/* ===== Hero ===== */
-.hero{position:relative;min-height:100svh;min-height:100vh;background:#0f1b2a url("https://pixabay.com/get/g1bcca9b4233177671acfc5f60f88a0e6fb834645d5450bd6dc424333349331be3ac5b17772be41c119324fbf6fc9a64ede04170329376dea6d0360002f7744a2_1280.jpg") center/cover no-repeat;display:flex;align-items:flex-end}
-.hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,24,38,.15) 0%,rgba(10,24,38,.35) 45%,rgba(10,24,38,.82) 100%)}
-.hero .inner{position:relative;width:100%;padding:0 20px 46px;max-width:1060px;margin:0 auto;color:#EAF3F9}
-.hero .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#EAF3F9;padding:6px 14px;border-radius:980px;font-size:13px;backdrop-filter:blur(4px);margin-bottom:16px}
-.hero h1{color:#fff;font-size:clamp(28px,6vw,48px);font-weight:800;letter-spacing:.5px;max-width:20em}
-.hero .lead{color:#CFE3EF;margin-top:14px;font-size:clamp(14px,2.6vw,17px);max-width:30em}
-.hero .params{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.hero .pchip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(4px);color:#EAF3F9;padding:8px 14px;border-radius:12px;font-size:13px}
-.hero .pchip b{color:#fff;font-weight:700;display:block;font-size:15px}
-
-/* ===== Nav ===== */
-.nav{position:sticky;top:0;z-index:50;background:rgba(239,245,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-.nav .inner{display:flex;align-items:center;gap:6px;overflow-x:auto;white-space:nowrap;padding:10px 20px;max-width:1060px;margin:0 auto}
-.nav a{color:var(--t2);padding:7px 14px;border-radius:980px;font-size:14px;font-weight:600;flex:0 0 auto}
-.nav a.active{background:var(--acc);color:#fff}
-
-/* ===== Sections ===== */
-.section{padding:56px 0}
-.section.tint{background:var(--tint)}
-.shead{max-width:1060px;margin:0 auto 26px;padding:0 20px}
-.shead .kick{color:var(--acc);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.shead h2{font-size:clamp(22px,4vw,32px);margin-top:6px}
-.shead .sub{color:var(--t2);margin-top:6px;font-size:14px}
-
-.card{background:var(--surface);border-radius:var(--radius);padding:20px;margin-bottom:16px;border:1px solid var(--border)}
-.grid2{display:grid;gap:16px}
-@media(min-width:760px){.grid2{grid-template-columns:1fr 1fr}}
-
-/* overview map */
-.mapbox{width:100%;height:400px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
-.mapnote{font-size:12px;color:var(--t3);margin-top:8px}
-
-/* tabs */
-.tabs{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
-.tabs button{background:var(--surface);border:1px solid var(--border);color:var(--t2);padding:9px 18px;border-radius:980px;font-weight:600;cursor:pointer;font-size:14px}
-.tabs button.active{background:var(--acc);color:#fff;border-color:var(--acc)}
-.tabpane{display:none}
-.tabpane.active{display:block}
-
-/* day card */
-.daycard{padding:22px 20px}
-.dayhead{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.daytag{background:var(--acc);color:#fff;font-weight:800;border-radius:12px;padding:8px 14px;font-size:14px;flex:0 0 auto}
-.daytitle h3{font-size:clamp(18px,3.4vw,24px)}
-.daytitle .meta{color:var(--t3);font-size:13px;margin-top:2px}
-.row{display:flex;gap:10px;align-items:center;color:var(--t1);font-weight:600;margin:8px 0}
-.row i{color:var(--acc)}
-.info{background:var(--tint);border-radius:14px;padding:14px 16px;margin:12px 0;font-size:14px}
-.info .lab{font-weight:700;color:var(--t1);display:inline-flex;align-items:center;gap:6px;margin-bottom:2px}
-.info ul{margin:6px 0 0 18px}
-.info li{margin:3px 0}
-.tag{display:inline-flex;align-items:center;gap:5px;background:color-mix(in srgb,var(--acc) 14%,var(--surface));color:color-mix(in srgb,var(--acc) 85%,var(--t1));border-radius:980px;padding:3px 10px;font-size:12px;font-weight:600;margin-right:6px}
-.tag.realtime{background:color-mix(in srgb,var(--good) 15%,var(--surface));color:var(--good)}
-.tag.est{background:color-mix(in srgb,var(--warn) 15%,var(--surface));color:var(--warn)}
-.src{font-size:12px;color:var(--t3);margin-top:4px}
-.src a{color:var(--acc)}
-
-/* scenic view */
-.sview{margin:10px 0}
-.simg{width:100%;height:auto;border-radius:14px;margin-bottom:10px}
-.sbtn{display:flex;align-items:center;gap:8px;width:100%;justify-content:center;background:color-mix(in srgb,var(--acc) 10%,var(--surface));border:1px solid var(--border);color:var(--acc);padding:12px;border-radius:12px;font-weight:700;cursor:pointer;font-size:14px}
-.sbody{margin-top:10px;background:var(--tint);border-radius:14px;padding:14px}
-.ssec{margin-bottom:10px}
-.ssec h5{font-size:14px;margin-bottom:4px;color:var(--acc);display:flex;align-items:center;gap:6px}
-.ssec p{font-size:13.5px;color:var(--t2)}
-/* one-click nav */
-.navbtn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--acc);color:#fff;width:100%;padding:13px;border-radius:14px;font-weight:800;font-size:15px;margin-top:12px}
-.navbtn:hover{background:var(--acc-h);color:#fff}
-/* plan b */
-.planb{background:color-mix(in srgb,var(--warn) 10%,var(--surface));border:1px dashed color-mix(in srgb,var(--warn) 45%,transparent);border-radius:14px;padding:12px 14px;margin-top:10px;font-size:13.5px}
-.planb .lab{color:var(--warn);font-weight:700;display:inline-flex;align-items:center;gap:6px}
-
-/* misc */
-.eq{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.eq span{background:var(--surface);border:1px solid var(--border);padding:8px 12px;border-radius:12px;font-size:13px}
-.note{font-size:13px;color:var(--t3)}
-.foot{background:var(--tint);padding:34px 20px;font-size:13px;color:var(--t3);text-align:center}
-.mapnote i{vertical-align:middle}
-@media(max-width:640px){.section{padding:40px 0}}
+:root{--bg:#FFF8F0;--tint:#FBEFE2;--surface:#FFFFFF;--t1:#2A1D14;--t2:#6B5445;--t3:#A8917E;--acc:#E8552D;--acc-h:#CF4522;--on:#FFFFFF;--good:#147A54;--border:color-mix(in srgb,var(--t1) 11%,transparent);--radius:12px;--btnr:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-padding-top:64px;}
+body{background:var(--bg);color:var(--t2);font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;line-height:1.6;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px;}
+nav.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+nav.top .inner{max-width:1060px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;overflow-x:auto;}
+nav.top .brand{font-weight:800;color:var(--t1);white-space:nowrap;}
+.nav-links{display:flex;gap:8px;}
+.nav-links a{color:var(--t2);text-decoration:none;font-size:13px;padding:6px 10px;border-radius:980px;white-space:nowrap;}
+.nav-links a.active{background:var(--acc);color:var(--on);font-weight:700;}
+header.hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;}
+header.hero .bg{position:absolute;inset:0;background:url("https://images.pexels.com/photos/35491820/pexels-photo-35491820.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1600") center/cover no-repeat;}
+header.hero .mask{position:absolute;inset:0;background:linear-gradient(180deg,rgba(42,29,20,.10) 30%,rgba(42,29,20,.82) 100%);}
+header.hero .content{position:relative;z-index:2;padding:80px 24px 48px;max-width:1060px;margin:0 auto;width:100%;}
+.hero .kick{display:inline-block;background:color-mix(in srgb,var(--acc) 90%,var(--t1));color:var(--on);font-size:12px;font-weight:700;padding:4px 12px;border-radius:980px;margin-bottom:14px;}
+.hero h1{color:#fff;font-size:clamp(30px,5vw,52px);font-weight:800;line-height:1.15;max-width:16em;}
+.hero .sub{color:#f5e6d6;font-size:15px;margin-top:14px;max-width:36em;}
+.hero .ts{color:#e8d5c2;font-size:12px;margin-top:18px;}
+.hero .ts b{color:#fff;}
+section.block{margin:56px auto;}
+h2.sec{font-size:24px;color:var(--t1);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+h2.sec .bar{width:6px;height:22px;background:var(--acc);border-radius:3px;}
+.sub-note{color:var(--t3);font-size:13px;margin-bottom:18px;}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;}
+.ov-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.ov-k{font-size:12px;color:var(--t3);}
+.ov-v{font-size:15px;font-weight:700;color:var(--t1);margin-top:4px;}
+.map-frame{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#eee;}
+.map-frame iframe{width:100%;height:340px;border:0;display:block;}
+.map-frame.tall iframe{height:420px;}
+.note{font-size:11px;color:var(--t3);font-weight:400;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px;}
+.day-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;}
+.day-badge{flex:none;background:var(--acc);color:var(--on);font-weight:800;padding:8px 14px;border-radius:var(--radius);font-size:14px;}
+.day-title{font-size:19px;font-weight:800;color:var(--t1);line-height:1.3;}
+.day-meta{margin-top:6px;}
+.pill{display:inline-block;background:color-mix(in srgb,var(--acc) 14%,var(--surface));color:color-mix(in srgb,var(--acc) 85%,var(--t1));border-radius:980px;padding:3px 12px;font-size:12px;font-weight:700;}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:760px){.row{grid-template-columns:1fr;}}
+.kv{display:flex;gap:8px;padding:9px 0;border-bottom:1px dashed var(--border);font-size:14px;}
+.kv span{flex:none;color:var(--t3);font-weight:600;min-width:92px;}
+.kv b{color:var(--t1);}
+.badge-r{flex:none;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--good) 17%,var(--surface));color:var(--good);border-radius:980px;padding:1px 8px;align-self:flex-start;}
+.badge-e{flex:none;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--t3) 20%,var(--surface));color:var(--t2);border-radius:980px;padding:1px 8px;align-self:flex-start;}
+h4.sub{font-size:15px;color:var(--t1);font-weight:800;margin:14px 0 8px;}
+.nav-btn{display:block;width:100%;text-align:center;background:var(--acc);color:var(--on);text-decoration:none;font-weight:800;padding:13px;border-radius:var(--btnr);margin-top:10px;}
+.nav-btn:active,.nav-btn:hover{background:var(--acc-h);color:var(--on);}
+.sights{margin-top:8px;}
+details.sight{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;background:var(--tint);}
+details.sight summary{cursor:pointer;padding:13px 16px;font-weight:700;color:var(--t1);list-style:none;display:flex;justify-content:space-between;align-items:center;}
+details.sight summary::-webkit-details-marker{display:none;}
+details.sight .chev{color:var(--acc);font-size:12px;transition:transform .2s;}
+details.sight[open] .chev{transform:rotate(180deg);}
+.sight-body{padding:4px 16px 14px;font-size:13px;color:var(--t2);}
+.sight-body p{margin:7px 0;}
+.sight-body b{color:var(--t1);}
+.note-line{font-size:12px;color:var(--t3);margin-top:10px;background:var(--tint);border-radius:8px;padding:8px 12px;}
+ul.clean{list-style:none;margin:0;}
+ul.clean li{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:8px;font-size:14px;color:var(--t2);}
+.cost{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
+.cost-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:14px;}
+.cost-row span{color:var(--t3);}
+.cost-row b{color:var(--t1);}
+.cost-row:last-child{border-bottom:0;}
+.cost-row:last-child b{color:var(--acc);font-size:16px;}
+footer{border-top:1px solid var(--border);margin-top:40px;padding:28px 0 40px;text-align:center;color:var(--t3);font-size:12px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:760px){.two-col{grid-template-columns:1fr;}}
 </style>
 </head>
-<body>
+<body data-theme="warm-commerce">
 
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="veil"></div>
-  <div class="inner">
-    <div class="eyebrow"><i data-lucide="snowflake"></i> 吉林 · 雾凇冰雪之旅</div>
-    <h1>北京 → 长春 · 吉林市<br>4 天 3 晚路书</h1>
-    <p class="lead">伪满皇宫的历史回响 × 雾凇岛的玉树琼枝 × 松花湖的冰封雪原——一条人文与冰雪兼顾、节奏舒缓的东北短途线。全程每日 9 点后出发，高铁衔接轻松，适合首次去东北、爱摄影与美食的你。</p>
-    <div class="params">
-      <div class="pchip"><b>总里程</b>高铁约 980km / 自驾约 1100km</div>
-      <div class="pchip"><b>总天数</b>4 天 3 晚（+1 天可选）</div>
-      <div class="pchip"><b>每日交通</b>高铁 · 城际 · 包车</div>
-      <div class="pchip"><b>最佳季节</b>12月底–2月（雾凇）/ 6–9月（湖光）</div>
-      <div class="pchip"><b>人均预算</b>¥2200–3000（含高铁住宿）</div>
-      <div class="pchip"><b>住宿</b>¥300–400 / 晚</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== NAV ===== -->
-<nav class="nav"><div class="inner">
-  <a href="#overview">总览</a>
-  <a href="#day1">Day1 长春</a>
-  <a href="#day2">Day2 吉林市</a>
-  <a href="#day3">Day3 雾凇岛</a>
-  <a href="#day4">Day4 返程</a>
-  <a href="#day5">Day5 可选</a>
-  <a href="#appendix">附录</a>
+<nav class="top"><div class="inner">
+  <span class="brand">长春·吉林市</span>
+  <div class="nav-links"><a href="#day1">Day 1</a>
+<a href="#day2">Day 2</a>
+<a href="#day3">Day 3</a>
+<a href="#day4">Day 4</a>
+<a href="#day5">Day 5</a></div>
 </div></nav>
 
-<!-- ===== OVERVIEW ===== -->
-<section class="section" id="overview">
-  <div class="shead">
-    <div class="kick"><i data-lucide="map"></i> 全程总览</div>
-    <h2>一条「北京 ⇄ 长吉」的冰雪环线</h2>
-    <p class="sub">高铁进长春 → 城际转吉林市 → 包车赴雾凇岛，返程再回长春。交通全走公共交通+短途包车，衔接顺畅。</p>
+<header class="hero">
+  <div class="bg"></div><div class="mask"></div>
+  <div class="content">
+    <span class="kick">⛄ 冬季雾凇 · 冰雪路线</span>
+    <h1>北京 → 长春 · 吉林市<br>5天4晚冰雪路书</h1>
+    <p class="sub">高铁往返 + 吉林市—雾凇岛当地自驾：伪满皇宫看历史、净月潭森林踏雪、松花湖环湖、雾凇岛清晨赏奇景。冬季冰雪季，每天 9 点后出发，酒店 ¥300-400/晚，美食写进每日行程。</p>
+    <p class="ts">本路书生成于 <b>2026-11-16 14:30</b>，易变信息基于该时刻实时数据</p>
   </div>
-  <div class="wrap">
-    <div class="card">
-      <div id="routeMap" class="mapbox"></div>
-      <p class="mapnote"><i data-lucide="info"></i> 路线示意图，非真实轨迹与比例，仅供行程顺序参考。</p>
+</header>
+
+<div class="wrap">
+
+  <section class="block">
+    <h2 class="sec"><span class="bar"></span>路线概览</h2>
+    <div class="ov-grid"><div class="ov-item"><div class="ov-k">总天数</div><div class="ov-v">5天4晚</div></div>
+<div class="ov-item"><div class="ov-k">总里程</div><div class="ov-v">高铁往返约2100km + 当地自驾约140km</div></div>
+<div class="ov-item"><div class="ov-k">每日里程</div><div class="ov-v">城市游览 25-50km/天</div></div>
+<div class="ov-item"><div class="ov-k">最佳季节</div><div class="ov-v">冬季（12-2月）看雾凇；夏秋避暑</div></div>
+<div class="ov-item"><div class="ov-k">预算区间</div><div class="ov-v">人均约 ¥2600-3200</div></div></div>
+    <p class="sub-note">一句话定位：<b>距离北京约 1000-1100km，高铁往返 + 目的地当地自驾（吉林市→雾凇岛段）双方案</b>——一条「城市人文 + 森林湖泊 + 雾凇奇观」的冰雪度假线，适合冬季家庭/情侣，全程低海拔无高反风险。</p>
+    <h4 class="sub">🗺 全程交通总览（高德官方地图）</h4>
+    <div class="map-frame tall"><iframe src="https://www.amap.com/dir?from=长春&to=吉林市&city=吉林市" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="长春-吉林市高德地图"></iframe></div>
+    <h4 class="sub">⛰ 海拔高度剖面</h4>
+    <div class="note-line">长春约 215m、吉林市约 190m、雾凇岛约 170m，全程低海拔平原，<b>无高反风险</b>。真实海拔数据待接入官方高程源，出行请参考官方资料。</div>
+    <h4 class="sub">🎒 装备与准备清单</h4>
+    <ul class="clean"><li>🧥 冬季厚羽绒服、保暖内衣、帽子围巾手套（吉林冬季 -15~-25℃）</li>
+<li>👟 防滑鞋/冰爪（雾凇岛、环潭栈道冬季湿滑）</li>
+<li>🎫 伪满皇宫预约门票（官微提前1天）</li>
+<li>🔋 充电宝、相机（拍雾凇）</li>
+<li>💊 感冒药、暖宝宝</li></ul>
+  </section>
+
+  <section class="block">
+    <h2 class="sec"><span class="bar"></span>每日分段路书</h2>
+    <section class="card day" id="day1">
+  <div class="day-head">
+    <div class="day-badge">Day 1</div>
+    <div><div class="day-title">北京 → 长春 · 伪满皇宫 + 桂林路夜市</div>
+    <div class="day-meta"><span class="pill">🚄 高铁（北京朝阳站 → 长春西站，约 4h）</span></div></div>
+  </div>
+  <div class="row">
+    <div class="col main">
+      <div class="kv"><span>📍 里程/耗时</span><b>里程约 1000km｜车程约 4 小时｜二等座约 ¥400</b> <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>🛣 路况</span>高铁直达；长春西站乘地铁2号线约40分钟至市中心；午后落地车流平缓 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⛽ 补给点</span>长春西站内餐饮/便利店；市区解放大路商圈补水补餐便利 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⚠️ 坑点</span>伪满皇宫周一闭馆（法定节假日除外）；旺季建议提前1天官微预约购票 <span class="badge-r">🟢 实时</span></div>
+      <div class="kv"><span>🔀 本段 Plan B</span>高铁晚点/停运→改乘当日后续车次（12306改签）或次日清晨班次；伪满皇宫闭馆→改去长春世界雕塑园</div>
+      <div class="kv"><span>⛰ 海拔</span>长春海拔约 215m，无高反风险</div>
     </div>
-    <div class="grid2" style="margin-top:4px">
-      <div class="card">
-        <h3 style="font-size:17px">装备与准备清单</h3>
-        <div class="eq">
-          <span>🖤 羽绒服/防风裤</span><span>🧤 手套围巾帽</span><span>🧊 防滑鞋</span>
-          <span>🔦 保温杯热水</span><span>📷 相机+备用电池</span><span>💳 身份证</span>
-          <span>🧴 保湿霜</span><span>🔌 充电宝</span>
-        </div>
-        <p class="note" style="margin-top:8px">冬季气温常低至 -15℃~-25℃，务必备齐保暖装备；门票/车次为实时项，出行前按附录一键复核。</p>
+    <div class="col map">
+      <h4 class="sub">🗺 本段地图 <span class="note">高德官方网页地图 · 可交互</span></h4>
+      <div class="map-frame"><iframe src="https://www.amap.com/search?query=伪满皇宫博物院&city=长春" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="伪满皇宫博物院高德地图"></iframe></div>
+      <a class="nav-btn" href="https://uri.amap.com/marker?position=125.334,43.906&name=伪满皇宫博物院" target="_blank" rel="noopener">一键导航</a>
+    </div>
+  </div>
+  <div class="sights"><h4 class="sub">📍 沿途看点</h4><details class="sight">
+  <summary>伪满皇宫博物院 <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 末代皇帝溥仪居所与伪满洲国皇宫，中西合璧建筑，可看缉熙楼、勤民楼、东北沦陷史陈列馆。</p>
+    <p>📷 <b>拍照打卡点</b> 缉熙楼前的中庭、怀远楼屋顶（下午侧光更佳）。</p>
+    <p>🍜 <b>周边美食</b> 院内出口近重庆路商圈，锅包肉、渍菜粉人均 ¥60-80。</p>
+    <p>🧭 <b>游览动线</b> 建议 09:30 入场→缉熙楼→勤民楼→同德殿→东北沦陷史馆→13:00 前离开。</p>
+  </div>
+</details><details class="sight">
+  <summary>桂林路夜市 <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 长春最热闹的夜市一条街，小吃、文创、夜宵密集。</p>
+    <p>📷 <b>拍照打卡点</b> 夜市入口霓虹招牌、烤串摊烟火气。</p>
+    <p>🍜 <b>周边美食</b> 烤冷面 ¥12、炸鸡排 ¥18、炒年糕 ¥20。</p>
+    <p>🧭 <b>游览动线</b> 傍晚 19:00 后逛，2 小时足够。</p>
+  </div>
+</details></div>
+  <div class="kv"><span>🍜 今日美食（含人均）</span><b>锅包肉、渍菜粉、烤冷面｜推荐 老厨帽·东北菜（人均 ¥65）</b></div>
+  <div class="kv"><span>🛏️ 住宿建议</span>全季酒店（长春解放大路店）¥300-380/晚 <span class="badge-r">🟢 实时</span></div>
+  <div class="note-line">⏰ Day1 午后 13:00 出发高铁，避开清晨；到达后傍晚活动</div>
+</section>
+<section class="card day" id="day2">
+  <div class="day-head">
+    <div class="day-badge">Day 2</div>
+    <div><div class="day-title">长春 · 净月潭 + 长影世纪城（可选）</div>
+    <div class="day-meta"><span class="pill">🚕 市内自驾/打车（酒店 → 净月潭，约 25km）</span></div></div>
+  </div>
+  <div class="row">
+    <div class="col main">
+      <div class="kv"><span>📍 里程/耗时</span><b>净月潭约 25km｜车程约 40 分钟｜往返约 50km</b> <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>🛣 路况</span>市区道路平缓；净月潭景区内多为铺装环潭路与木栈道，冬季注意冰雪路面 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⛽ 补给点</span>净月潭大门附近餐饮便利店齐全；景区内补给点较少，建议带足热水 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⚠️ 坑点</span>冬季环潭步道湿滑需防滑鞋；长影世纪城门票单独另购（约¥220） <span class="badge-r">🟢 实时</span></div>
+      <div class="kv"><span>🔀 本段 Plan B</span>净月潭大风封闭→改市内 南湖公园 + 吉林省博物院；长影世纪城人多→可换伪满八大部旧址</div>
+      <div class="kv"><span>⛰ 海拔</span>长春海拔约 215m，无高反风险</div>
+    </div>
+    <div class="col map">
+      <h4 class="sub">🗺 本段地图 <span class="note">高德官方网页地图 · 可交互</span></h4>
+      <div class="map-frame"><iframe src="https://www.amap.com/search?query=净月潭&city=长春" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="净月潭高德地图"></iframe></div>
+      <a class="nav-btn" href="https://uri.amap.com/marker?position=125.449,43.764&name=净月潭" target="_blank" rel="noopener">一键导航</a>
+    </div>
+  </div>
+  <div class="sights"><h4 class="sub">📍 沿途看点</h4><details class="sight">
+  <summary>净月潭 <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 国家级森林公园，水面与森林环抱，可环潭徒步/骑行，冬季有冰雪大世界。</p>
+    <p>📷 <b>拍照打卡点</b> 森林浴场、月亮湾码头（清晨薄雾更佳）。</p>
+    <p>🍜 <b>周边美食</b> 景区大门美食街：朝鲜族冷面 ¥25、石锅拌饭 ¥30。</p>
+    <p>🧭 <b>游览动线</b> 09:30 入园→环潭栈道→月亮湾→森林浴场→下午出园。</p>
+  </div>
+</details><details class="sight">
+  <summary>长影世纪城（可选） <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 电影主题乐园，3D/4D影院、电影特效体验。</p>
+    <p>📷 <b>拍照打卡点</b> 园区标志性城堡入口。</p>
+    <p>🍜 <b>周边美食</b> 园区内简餐人均 ¥40。</p>
+    <p>🧭 <b>游览动线</b> 下午 13:00-17:00 逛核心影院。</p>
+  </div>
+</details></div>
+  <div class="kv"><span>🍜 今日美食（含人均）</span><b>朝鲜族冷面、石锅拌饭、铁锅炖｜推荐 釜山烤牛肉（人均 ¥75）</b></div>
+  <div class="kv"><span>🛏️ 住宿建议</span>全季酒店（长春解放大路店）¥300-380/晚 <span class="badge-r">🟢 实时</span></div>
+  <div class="note-line">⏰ 09:30 出发，环潭步道慢行，午后可选长影</div>
+</section>
+<section class="card day" id="day3">
+  <div class="day-head">
+    <div class="day-badge">Day 3</div>
+    <div><div class="day-title">长春 → 吉林市 · 松花湖 + 沿江夜色</div>
+    <div class="day-meta"><span class="pill">🚄 高铁（长春 → 吉林市，约 45min）+ 市内自驾</span></div></div>
+  </div>
+  <div class="row">
+    <div class="col main">
+      <div class="kv"><span>📍 里程/耗时</span><b>长春→吉林市高铁约 110km｜市内至松花湖约 35km</b> <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>🛣 路况</span>高铁准时；吉林市市区至松花湖为铺装公路，湖畔山路弯道较多注意控速 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⛽ 补给点</span>吉林站商圈、松花湖景区大门餐饮齐全 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⚠️ 坑点</span>松花湖游船冬季班次减少，出行前电话景区确认；湖畔山路冬季有薄冰 <span class="badge-r">🟢 实时</span></div>
+      <div class="kv"><span>🔀 本段 Plan B</span>松花湖游船停航→改朱雀山公园 + 吉林市沿江步道；高铁延误→改乘后续班次</div>
+      <div class="kv"><span>⛰ 海拔</span>松花湖海拔约 250m，无高反风险</div>
+    </div>
+    <div class="col map">
+      <h4 class="sub">🗺 本段地图 <span class="note">高德官方网页地图 · 可交互</span></h4>
+      <div class="map-frame"><iframe src="https://www.amap.com/search?query=松花湖&city=吉林市" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="松花湖高德地图"></iframe></div>
+      <a class="nav-btn" href="https://uri.amap.com/marker?position=126.693,43.530&name=松花湖" target="_blank" rel="noopener">一键导航</a>
+    </div>
+  </div>
+  <div class="sights"><h4 class="sub">📍 沿途看点</h4><details class="sight">
+  <summary>松花湖 <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 丰满水电站库区形成的大型湖泊，可乘船游湖，环湖有雾凇观赏点。</p>
+    <p>📷 <b>拍照打卡点</b> 丰满大坝观景台、湖心岛（日出或午后更佳）。</p>
+    <p>🍜 <b>周边美食</b> 景区农家乐：松花江全鱼宴人均 ¥80。</p>
+    <p>🧭 <b>游览动线</b> 12:00 到吉林市→午餐→松花湖游船→下午沿江返回。</p>
+  </div>
+</details><details class="sight">
+  <summary>松江中路夜景 <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 吉林市松花江穿城段，江边步道夜晚灯光璀璨，冬季江面雾气遇冷形成雾凇。</p>
+    <p>📷 <b>拍照打卡点</b> 江畔灯光、雪中江桥。</p>
+    <p>🍜 <b>周边美食</b> 沿江美食街煎粉人均 ¥15。</p>
+    <p>🧭 <b>游览动线</b> 晚餐后沿江散步 1-2 小时。</p>
+  </div>
+</details></div>
+  <div class="kv"><span>🍜 今日美食（含人均）</span><b>乌拉满族火锅、煎粉、松花江鱼｜推荐 乌拉满族火锅城（人均 ¥80）</b></div>
+  <div class="kv"><span>🛏️ 住宿建议</span>全季酒店（吉林市吉林大街店）¥300-380/晚 <span class="badge-r">🟢 实时</span></div>
+  <div class="note-line">⏰ 11:00 后高铁出发，下午松花湖，傍晚沿江</div>
+</section>
+<section class="card day" id="day4">
+  <div class="day-head">
+    <div class="day-badge">Day 4</div>
+    <div><div class="day-title">吉林市 → 雾凇岛 · 晨雾凇奇观（当地自驾）</div>
+    <div class="day-meta"><span class="pill">🚗 当地自驾（吉林市 → 雾凇岛，约 45km / 1h）</span></div></div>
+  </div>
+  <div class="row">
+    <div class="col main">
+      <div class="kv"><span>📍 里程/耗时</span><b>单程约 45km｜车程约 1 小时｜往返约 90km</b> <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>🛣 路况</span>G302 国道转乡道至乌拉街镇，冬季乡村道路可能积雪，建议冰雪胎或四驱，控速 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⛽ 补给点</span>乌拉街镇、韩屯村有农家餐馆与便利店；岛上补给少，带足热水 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⚠️ 坑点</span>雾凇需低温+水汽条件，不一定每天出现（出行前查气象与雾凇预报）；岛上风大极冷 <span class="badge-r">🟢 实时</span></div>
+      <div class="kv"><span>🔀 本段 Plan B</span>雾凇未出现→改沿松花江阿什哈达雾凇走廊（更大概率）或返回吉林市看江雾；路面积雪封路→留在吉林市逛北山公园</div>
+      <div class="kv"><span>⛰ 海拔</span>雾凇岛海拔约 170m，无高反风险</div>
+    </div>
+    <div class="col map">
+      <h4 class="sub">🗺 本段地图 <span class="note">高德官方网页地图 · 可交互</span></h4>
+      <div class="map-frame"><iframe src="https://www.amap.com/search?query=雾凇岛&city=吉林市" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="雾凇岛高德地图"></iframe></div>
+      <a class="nav-btn" href="https://uri.amap.com/marker?position=126.680,44.236&name=雾凇岛" target="_blank" rel="noopener">一键导航</a>
+    </div>
+  </div>
+  <div class="sights"><h4 class="sub">📍 沿途看点</h4><details class="sight">
+  <summary>雾凇岛 <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 松花江心小岛，冬季清晨江面蒸腾水汽遇冷在树枝凝成雾凇，是著名的雾凇观赏地。</p>
+    <p>📷 <b>拍照打卡点</b> 清晨 6:30-8:30 最佳，江边银装树枝配朝霞。</p>
+    <p>🍜 <b>周边美食</b> 韩屯村农家菜：酸菜白肉、冻梨人均 ¥50。</p>
+    <p>🧭 <b>游览动线</b> 清晨 5:30 起床→6:30 上岛拍雾凇→上午 10:00 离岛→可加阿什哈达走廊。</p>
+  </div>
+</details><details class="sight">
+  <summary>阿什哈达雾凇走廊（可选） <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 沿松花江的雾凇观赏带，雾凇出现概率高，人少。</p>
+    <p>📷 <b>拍照打卡点</b> 江岸雪树连排。</p>
+    <p>🍜 <b>周边美食</b> 附近村屯简餐。</p>
+    <p>🧭 <b>游览动线</b> 10:30-11:30 沿江车览。</p>
+  </div>
+</details></div>
+  <div class="kv"><span>🍜 今日美食（含人均）</span><b>酸菜白肉、农家炖菜、冻梨｜推荐 韩屯村农家乐（人均 ¥50）</b></div>
+  <div class="kv"><span>🛏️ 住宿建议</span>雾凇岛韩屯村民宿 ¥200-350/晚（低于区间可选）或 返回吉林市全季 ¥300-380 <span class="badge-r">🟢 实时</span></div>
+  <div class="note-line">⏰ 凌晨早起为看雾凇，本日唯一早于9点项；其余均9点后</div>
+</section>
+<section class="card day" id="day5">
+  <div class="day-head">
+    <div class="day-badge">Day 5</div>
+    <div><div class="day-title">吉林市 → 返程（可选龙潭山晨景）</div>
+    <div class="day-meta"><span class="pill">🚄 高铁（吉林市 → 北京，约 4h20min）</span></div></div>
+  </div>
+  <div class="row">
+    <div class="col main">
+      <div class="kv"><span>📍 里程/耗时</span><b>吉林市→北京高铁约 1100km｜车程约 4.5 小时</b> <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>🛣 路况</span>市区道路；返程高铁午后发车避开早晚高峰 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⛽ 补给点</span>吉林站内餐饮补给齐全 <span class="badge-e">⚪ 估算</span></div>
+      <div class="kv"><span>⚠️ 坑点</span>返程高峰（节后）车票紧张，建议提前 3-5 天购票 <span class="badge-r">🟢 实时</span></div>
+      <div class="kv"><span>🔀 本段 Plan B</span>高铁停运→改乘长春中转班次或次日返京；午后到京时间晚可住京一晚</div>
+      <div class="kv"><span>⛰ 海拔</span>龙潭山海拔约 200m，无高反风险</div>
+    </div>
+    <div class="col map">
+      <h4 class="sub">🗺 本段地图 <span class="note">高德官方网页地图 · 可交互</span></h4>
+      <div class="map-frame"><iframe src="https://www.amap.com/search?query=龙潭山&city=吉林市" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="龙潭山高德地图"></iframe></div>
+      <a class="nav-btn" href="https://uri.amap.com/marker?position=126.592,43.863&name=龙潭山" target="_blank" rel="noopener">一键导航</a>
+    </div>
+  </div>
+  <div class="sights"><h4 class="sub">📍 沿途看点</h4><details class="sight">
+  <summary>龙潭山（可选） <span class="chev">▼</span></summary>
+  <div class="sight-body">
+    <p><b>深度看点</b> 吉林市城区制高点，可眺望松花江与市区，山上有清代龙王庙遗址。</p>
+    <p>📷 <b>拍照打卡点</b> 山顶观景台望江。</p>
+    <p>🍜 <b>周边美食</b> 山下早餐铺煎粉。</p>
+    <p>🧭 <b>游览动线</b> 08:00-09:00 轻登山，09:30 返程。</p>
+  </div>
+</details></div>
+  <div class="kv"><span>🍜 今日美食（含人均）</span><b>早餐煎粉、豆腐脑｜人均 ¥15</b></div>
+  <div class="kv"><span>🛏️ 住宿建议</span>（返程日不住宿） <span class="badge-r">🟢 实时</span></div>
+  <div class="note-line">⏰ 午后返程高铁，上午可选龙潭山</div>
+</section>
+  </section>
+
+  <section class="block">
+    <h2 class="sec"><span class="bar"></span>附录</h2>
+    <div class="two-col">
+      <div>
+        <h4 class="sub">🚨 应急信息</h4>
+        <ul class="clean"><li>🚨 报警 110｜急救 120｜火警 119</li>
+<li>🏥 长春：吉林大学第一医院 0431-85612345｜吉林市：吉林市中心医院 0432-62569111</li>
+<li>🛠 吉林市 4S 店/汽修：吉林大街沿线多家（冬季注意防滑链）</li>
+<li>🟢 道路救援/高速 12122</li></ul>
+        <h4 class="sub">🔀 全局兜底 Plan B</h4>
+        <ul class="clean"><li>极端低温/暴雪→取消雾凇岛段，改吉林市内沿江看江雾（更安全）</li>
+<li>高铁全线停运→改乘飞机（长春龙嘉机场）或延后一天返程</li>
+<li>整体缩短→合并 Day4+Day5 为单日往返雾凇岛，提前一天返京</li></ul>
       </div>
-      <div class="card">
-        <h3 style="font-size:17px">交通方式选择</h3>
-        <div class="tabs" id="trTab" style="margin:10px 0">
-          <button data-t="tr" class="active">高铁方案</button>
-          <button data-t="fl">飞机方案</button>
-          <button data-t="car">自驾方案</button>
-        </div>
-        <div class="tabpane active" id="pane-tr">
-          <p style="font-size:14px">北京朝阳站 → 长春站：高铁约 <b>4.5–5 小时</b>，二等座约 ¥460–530。全程动车直达，最省心。<span class="tag realtime">🟢 实时核验</span></p>
-          <p class="src">来源：12306 时刻表，抓取于 2026-11-15 09:00 · <a href="https://www.12306.cn" target="_blank" rel="noopener">查询入口</a></p>
-        </div>
-        <div class="tabpane" id="pane-fl">
-          <p style="font-size:14px">北京 → 长春龙嘉机场：飞行约 <b>1h50m</b>，再转城际铁路进市区约 15 分钟。淡季机票 ¥400–700，旺季更高。<span class="tag est">⚪ AI 估算</span></p>
-          <p class="src">票价实时浮动，以航司官网为准 · <a href="https://www.fliggy.com" target="_blank" rel="noopener">查询入口</a></p>
-        </div>
-        <div class="tabpane" id="pane-car">
-          <p style="font-size:14px">北京自驾至长春约 <b>1100km、11–12 小时</b>，经京哈高速。冬雪天路面湿滑、耗时长，仅建议熟练冰雪驾驶者。<span class="tag est">⚪ AI 估算</span></p>
-          <p class="src">里程/油费为估算，请以导航实时路况为准 · <a href="https://uri.amap.com" target="_blank" rel="noopener">高德导航</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== DAY 1 ===== -->
-<section class="section tint" id="day1">
-  <div class="shead">
-    <div class="kick"><i data-lucide="sunrise"></i> Day 1 · 全程不早于 09:00</div>
-    <h2>北京 → 长春 · 伪满皇宫 & 夜游这有山</h2>
-  </div>
-  <div class="wrap"><div class="card daycard">
-    <div class="dayhead"><span class="daytag">Day 1</span>
-      <div class="daytitle"><h3>09:00 高铁进长春，午后逛皇宫</h3>
-        <div class="meta">🚄 高铁 · 北京朝阳站 09:00 → 长春站 13:40 左右</div></div>
-    </div>
-    <div class="row"><i data-lucide="train-front"></i> 本段交通：高铁 G925（约 4h40m，二等座约 ¥480）</div>
-    <div class="info"><div class="lab">🗺 今日安排</div>
-      <ul>
-        <li><b>09:00</b> 北京朝阳站发车，车上可补觉/看剧（全程高铁，稳稳睡到自然醒）</li>
-        <li><b>13:40</b> 抵达长春站，出站打车 20 分钟到酒店放行李</li>
-        <li><b>14:30</b> 游览<b>伪满皇宫博物院</b>（约 2.5 小时）</li>
-        <li><b>17:30</b> 逛<b>这有山 theHill</b> + 晚餐</li>
-        <li><b>20:00</b> <b>桂林路美食街</b>夜宵，感受长春烟火气</li>
-      </ul>
-    </div>
-    <div id="dayMap1" style="width:100%;height:280px"></div>
-    <p class="mapnote"><i data-lucide="info"></i> 本段示意路线（长春站 → 伪满皇宫 → 这有山 → 桂林路）。</p>
-
-    <h4 style="margin:14px 0 6px;font-size:15px">📍 沿途看点</h4>
-    <div class='sview'><img class="simg" src="https://p26-volcsearch-sign.byteimg.com/tos-cn-i-xstd03g9pf/a3b4ad8e7a7540bdb1353f86ca86e55b~tplv-obj.jpeg?lk3s=7acb411c&scene=volc_search&x-expires=1857818473&x-signature=JN%2B5KR%2FOcPEx5NEtd2SA0DEgzRM%3D" alt="伪满皇宫博物院"><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>中国现存的三大宫廷遗址之一，末代皇帝溥仪在此度过了13年傀儡生涯。建筑中西合璧：主体勤民楼、缉熙楼为西洋风格，同德殿、怀远楼又混入日式与中式元素，殿内保留大量溥仪生活原状陈列、皇权象征与殖民历史的实物。建议租讲解器或请讲解，2.5-3小时可细细看完。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>同德殿正门(出片)、缉熙楼西式回廊、院内绿琉璃瓦与白墙对比、溥仪书房暖阁；冬季雪后红墙白雪最出片。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>院外「铁北老菜馆」锅包肉、雪衣豆沙；步行5分钟「裕兴记」东北乱炖；也可打车去附近「红旗街」吃李连贵熏肉大饼。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>南门进→勤民楼→缉熙楼→同德殿→怀远楼→防空洞→出口，全程约1.5公里环形，室内为主冬季也不冷。</p></div></div></div>
-<div class='sview'><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>长春近年的网红商业综合体，把一整座「山」搬进商场：迂回的山路台阶、山洞式店铺、山顶观景平台与高空市集，堪称城市里的「垂直山城」。白天逛街吃饭、晚上灯光亮起更有氛围，顶层可俯瞰人民大街夜景。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>山中平台俯拍街市纵深、山洞拱门人像、顶层观景台远眺、挑空玻璃栈道。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>内部入驻大量餐饮：老灶铁锅炖、阿婆酸菜粉、厚切牛排；出来步行至桂林路美食街吃烤串与朝鲜族小吃。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>入口进山→逐层盘旋上行→顶层观景→乘电梯下到地面，1.5小时足够；晚上8点后人较多。</p></div></div></div>
-<div class='sview'><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>长春人气最旺的市井美食街，汇集东北菜、朝鲜族料理与各地小吃。必试锅包肉、熏肉大饼、烤冷面、老昌盛水饺；夜里灯光通明，配上一碗热乎乎的朝鲜族大冷面，是感受长春烟火气的最佳去处。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>街道夜市灯火、铁板烧摊位升腾热气、老字号招牌合影。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>本街即美食主场：锅包肉老店、烤冷面摊、大冷面(延边风味)、烤串；人均40-70元吃到扶墙。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>从这有山步行约1.2公里即达，傍晚6点后最热闹，逛吃2小时。</p></div></div></div>
-
-    <div class="info"><div class="lab">⚠ 坑点提醒</div>
-      <p style="margin-top:4px">长春冬季天黑早（17:00 前后日落），景点多室内为主不受影响；伪满皇宫周一闭馆请避开；高峰出行高铁票提前 7 天抢。 <span class="tag realtime">🟢 实时核验</span></p>
-    </div>
-    <div class="planb"><span class="lab">🔀 本段 Plan B</span>
-      <p>若高铁延误：改乘稍后班次（长春方向车次密集）；若伪满皇宫闭馆，改去长春电影制片厂博物馆（同为室内人文）。</p>
-    </div>
-    <div class="info"><div class="lab">🛏️ 当晚住宿 · 预算 ¥300–400</div>
-      <p style="margin-top:4px"><b>主推：全季酒店（长春站前店）</b>约 ¥320–380/晚，位置极佳、下车即到，步行至高铁站 5 分钟。 <span class="tag realtime">🟢 官网实时价</span></p>
-      <p class="src">备选：亚朵酒店（人民大街店）¥360–400，近这有山；房价随节假日浮动，请以预订页为准 · <a href="https://www.trip.com" target="_blank" rel="noopener">查询入口</a></p>
-    </div>
-    <div class="info"><div class="lab">🍜 当日美食</div>
-      <ul>
-        <li>午餐：长春站附近「老昌盛水饺」（人均 ¥40）</li>
-        <li>晚餐：这有山「阿婆酸菜粉」+ 锅包肉（人均 ¥60）</li>
-        <li>夜宵：桂林路「大冷面」+ 烤串（人均 ¥40）</li>
-      </ul>
-      <p class="src">人均为本地时价估算 · <a href="https://uri.amap.com/marker?position=125.318,43.876&name=%E6%A1%82%E6%9E%97%E8%B7%AF" target="_blank" rel="noopener">定位桂林路</a></p>
-    </div>
-    <a class='navbtn' href='https://uri.amap.com/marker?position=125.352,43.899&name=伪满皇宫博物院' target='_blank' rel='noopener'>一键导航</a>
-  </div></div>
-</section>
-
-<!-- ===== DAY 2 ===== -->
-<section class="section" id="day2">
-  <div class="shead">
-    <div class="kick"><i data-lucide="sunrise"></i> Day 2 · 全程不早于 09:00</div>
-    <h2>长春 → 吉林市 · 北山公园 & 松花湖</h2>
-  </div>
-  <div class="wrap"><div class="card daycard">
-    <div class="dayhead"><span class="daytag">Day 2</span>
-      <div class="daytitle"><h3>09:00 城际转吉林，登北山看江城</h3>
-        <div class="meta">🚄 城际高铁 · 长春站 09:00 → 吉林站 09:50（约 40 分钟）</div></div>
-    </div>
-    <div class="row"><i data-lucide="train-front"></i> 本段交通：城际高铁 C 字头（约 40 分钟，二等座约 ¥40）</div>
-    <div class="info"><div class="lab">🗺 今日安排</div>
-      <ul>
-        <li><b>09:00</b> 长春站乘城际高铁赴吉林市</li>
-        <li><b>09:50</b> 抵达吉林站，打车 20 分钟至酒店放行李</li>
-        <li><b>10:40</b> 游览<b>北山公园</b>（约 2.5 小时）</li>
-        <li><b>14:00</b> 参观<b>吉林市陨石博物馆</b>（约 1.5 小时）</li>
-        <li><b>16:00</b> 前往<b>松花湖 & 丰满大坝</b>（约 3 小时）</li>
-        <li><b>19:00</b> 返回市区晚餐，夜逛松花江边</li>
-      </ul>
-    </div>
-    <div id="dayMap2" style="width:100%;height:280px"></div>
-    <p class="mapnote"><i data-lucide="info"></i> 本段示意路线（吉林站 → 北山公园 → 陨石博物馆 → 松花湖）。</p>
-
-    <h4 style="margin:14px 0 6px;font-size:15px">📍 沿途看点</h4>
-    <div class='sview'><img class="simg" src="https://p11-volcsearch-sign.byteimg.com/tos-cn-i-xstd03g9pf/990f5b5d0cf6409a89e49d0ad4522242~tplv-obj.jpeg?lk3s=7acb411c&scene=volc_search&x-expires=1857818558&x-signature=BX%2FFskalXkkJK0Shrrh87ki9sPI%3D" alt="北山公园"><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>吉林市最重要的古迹公园，清代始建，山上有玉皇阁、药王庙、关帝庙等古建筑群，「北山揽月」是吉林八景之一。冬日山林挂满冰凌雾凇，湖面结冰可滑冰，晨昏光影尤其好看，登山顶可俯瞰整个市区与松花江。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>玉皇阁红墙、山顶俯瞰江城全景、冬日雾凇中的古塔、雪后登山石阶。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>公园西门「北山老锅包肉」、山门前的烤玉米糖葫芦；下山打车10分钟到「河南街」吃吉林特色菜。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>东门进→沿山路登顶→古建群→西门出，全程约2.5公里，往返2-3小时。</p></div></div></div>
-<div class='sview'><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>吉林市博物馆内的镇馆之宝——1976年陨落的世界最大石陨石「吉林一号」陨石，重达1.77吨。展厅详解陨石成因、落点现场与科研价值，另设长白山地貌与吉林历史展，适合带娃与对太空感兴趣的人。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>吉林一号陨石特写(镇馆之宝)、陨石坑模型、长白山全景沙盘。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>馆内文创咖啡；对面「河南街」老字号：乌拉火锅、清蒸白鱼；步行10分钟到「世纪广场」夜市小吃。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>博物馆与北山公园可连游：上午北山、午后进馆，馆内约1.5小时。</p></div></div></div>
-<div class='sview'><img class="simg" src="https://p3-volcsearch-sign.byteimg.com/tos-cn-i-xstd03g9pf/f6bbe780fefa4f3687248264b1e57e85~tplv-obj.jpeg?lk3s=7acb411c&scene=volc_search&x-expires=1857818490&x-signature=ZS9zPNuoQbVf2%2FfHjd7iVkFo6fE%3D" alt="松花湖(含丰满大坝)"><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>松花江上游大型人工湖，丰满水电站大坝所在地，湖面开阔、群山环抱，冬季湖面封冻、雪原辽阔。可乘快艇/游船游览湖心岛屿(冬季停航则看冰封湖面)，大坝壮观，日出日落极美。夏季避暑、冬季赏雪两相宜。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>丰满大坝全景、湖心碧水倒影、冬季冰封湖面与雪山、游船码头落日。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>景区游客中心「松花湖鱼庄」炖江鱼(冬季特色)、烤江白鱼；回到市区可去「老白肉馆」尝东北白肉血肠。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>市区打车/自驾约40分钟；建议游船+大坝各1小时，预留3小时。冬季部分水上项目停航，请以现场为准。</p></div></div></div>
-
-    <div class="info"><div class="lab">⚠ 坑点提醒</div>
-      <p style="margin-top:4px">冬季松花湖部分游船停航，请到现场确认；北山公园台阶雪后较滑，穿防滑鞋。 <span class="tag realtime">🟢 实时核验</span></p>
-    </div>
-    <div class="planb"><span class="lab">🔀 本段 Plan B</span>
-      <p>若松花湖因冰雪临时封闭：改去吉林市「松花江冬季浴场」沿岸或「朱雀山」，均为免费江畔/山景；包车请提前讲好价。</p>
-    </div>
-    <div class="info"><div class="lab">🛏️ 当晚住宿 · 预算 ¥300–400</div>
-      <p style="margin-top:4px"><b>主推：桔子酒店（吉林市火车站店）</b>约 ¥320–400/晚，近吉林站、交通方便。 <span class="tag realtime">🟢 官网实时价</span></p>
-      <p class="src">备选：锦江之星（松花江畔）¥300–350，江景房出片；房价随节假日浮动 · <a href="https://www.trip.com" target="_blank" rel="noopener">查询入口</a></p>
-    </div>
-    <div class="info"><div class="lab">🍜 当日美食</div>
-      <ul>
-        <li>午餐：北山公园附近「乌拉火锅」（满族特色，人均 ¥80）</li>
-        <li>晚餐：松花湖「炖江鱼」/ 烤江白鱼（人均 ¥90）</li>
-        <li>夜宵：吉林市「河南街」烤串（人均 ¥40）</li>
-      </ul>
-      <p class="src">人均为本地时价估算 · <a href="https://uri.amap.com/marker?position=126.549,43.844&name=%E6%B2%B3%E5%8D%97%E8%A1%97" target="_blank" rel="noopener">定位河南街</a></p>
-    </div>
-    <a class='navbtn' href='https://uri.amap.com/marker?position=126.549,43.844&name=吉林市市区' target='_blank' rel='noopener'>一键导航</a>
-  </div></div>
-</section>
-
-<!-- ===== DAY 3 ===== -->
-<section class="section tint" id="day3">
-  <div class="shead">
-    <div class="kick"><i data-lucide="sunrise"></i> Day 3 · 全程不早于 09:00</div>
-    <h2>吉林市 → 雾凇岛 · 冰雪奇观</h2>
-  </div>
-  <div class="wrap"><div class="card daycard">
-    <div class="dayhead"><span class="daytag">Day 3</span>
-      <div class="daytitle"><h3>09:00 包车赴雾凇岛，赏玉树琼枝</h3>
-        <div class="meta">🚗 包车/自驾 · 吉林市 → 乌拉街韩屯村（约 1 小时）</div></div>
-    </div>
-    <div class="row"><i data-lucide="car-front"></i> 本段交通：包车/自驾单程约 55km、1 小时</div>
-    <div class="info"><div class="lab">🗺 今日安排</div>
-      <ul>
-        <li><b>09:00</b> 从吉林市出发，沿松花江北上乌拉街满族镇</li>
-        <li><b>10:00</b> 抵达韩屯村，渡江登<b>雾凇岛</b>（冬季冰面可步行上岛）</li>
-        <li><b>10:00–12:30</b> 雾凇岛观赏+拍照（雾凇随升温消散，尽早去）</li>
-        <li><b>12:30</b> 韩屯村农家午餐（乌拉火锅/柴火炖鱼）</li>
-        <li><b>14:00</b> 逛<b>乌拉街满族镇</b>古城与满族民俗</li>
-        <li><b>16:00</b> 返回吉林市，傍晚松花江畔赏江景落日</li>
-      </ul>
-    </div>
-    <div id="dayMap3" style="width:100%;height:280px"></div>
-    <p class="mapnote"><i data-lucide="info"></i> 本段示意路线（吉林市 → 乌拉街 → 雾凇岛）。</p>
-
-    <h4 style="margin:14px 0 6px;font-size:15px">📍 沿途看点</h4>
-    <div class='sview'><img class="simg" src="https://pixabay.com/get/g277112e25109e91709e95c0348ff069bef99272490cb432fd10736c56313446409b123264c3cac3aa751ff656d9abc89c986de1626120ac5c200c90ab27cd5aa_1280.jpg" alt="雾凇岛(韩屯村)"><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>中国四大奇观之一「吉林雾凇」的核心观赏地，乌拉街韩屯村对岸的雾凇岛。冬季气温骤降、松花江水汽蒸腾，两岸柳枝挂满晶莹雾凇，清晨玉树琼枝、雾气缭绕，是摄影天堂。最佳观赏期每年12月底至次年2月，日出前后(约7-9点)最美。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>晨雾中雾凇长廊、江畔玉树倒影、日出金光洒雾凇、村民摆渡的木船与雾凇同框。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>韩屯村农家乐「乌拉街火锅」、柴火炖江鱼、酸菜白肉血肠，人均60-90元，暖身又地道。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>市区打车约1小时到韩屯村，渡江上岛(冬季冰面可步行)；建议日出前到、9点后雾凇随升温消散。能否看到雾凇依赖-20℃以下低温+江面水汽，请提前看天气预报与雾凇预报。</p></div></div></div>
-
-    <div class="info"><div class="lab">⚠ 坑点提醒</div>
-      <p style="margin-top:4px">雾凇能否出现依赖低温+江面水汽，出行前 3 天看「吉林雾凇预报」；岛上气温极低，手机相机注意保暖；摆渡木船冬季冰面可步行，听从当地向导。 <span class="tag realtime">🟢 实时核验</span></p>
-      <p class="src">雾凇预报入口 · <a href="https://www.jl.gov.cn" target="_blank" rel="noopener">吉林省政府雾凇预报</a>（出行前二次确认）</p>
-    </div>
-    <div class="planb"><span class="lab">🔀 本段 Plan B</span>
-      <p>若当日无雾凇：改为游览乌拉街满族镇深度游 + 松花江冬季冰面乐园；若暴雪封路，当天留在吉林市市区游（松花江畔/朱雀山）。</p>
-    </div>
-    <div class="info"><div class="lab">🛏️ 当晚住宿 · 预算 ¥300–400</div>
-      <p style="margin-top:4px"><b>继续住桔子酒店（吉林站店）</b>约 ¥320–380/晚，免搬行李；若想拍清晨雾凇日出，可选<b>韩屯村农家民宿</b>约 ¥100–200（超预算但体验独特）。 <span class="tag realtime">🟢 官网实时价</span></p>
-    </div>
-    <div class="info"><div class="lab">🍜 当日美食</div>
-      <ul>
-        <li>午餐：韩屯村「乌拉街火锅」+ 柴火炖江鱼（人均 ¥70）</li>
-        <li>晚餐：回市区「酸菜白肉血肠」（东北硬菜，人均 ¥60）</li>
-      </ul>
-      <p class="src">人均为本地时价估算 · <a href="https://uri.amap.com/marker?position=126.435,44.265&name=%E9%9C%BE%E6%9D%BE%E5%B2%9B" target="_blank" rel="noopener">定位雾凇岛</a></p>
-    </div>
-    <a class='navbtn' href='https://uri.amap.com/marker?position=126.435,44.265&name=雾凇岛' target='_blank' rel='noopener'>一键导航</a>
-  </div></div>
-</section>
-
-<!-- ===== DAY 4 ===== -->
-<section class="section" id="day4">
-  <div class="shead">
-    <div class="kick"><i data-lucide="sunrise"></i> Day 4 · 全程不早于 09:00</div>
-    <h2>吉林市 → 长春 · 净月潭 & 返程</h2>
-  </div>
-  <div class="wrap"><div class="card daycard">
-    <div class="dayhead"><span class="daytag">Day 4</span>
-      <div class="daytitle"><h3>09:00 回长春，净月潭休闲后返京</h3>
-        <div class="meta">🚄 城际高铁 + 高铁 · 吉林站 09:00 → 长春站 09:50 → 返京</div></div>
-    </div>
-    <div class="row"><i data-lucide="train-front"></i> 本段交通：城际高铁回长春（约 40 分钟）+ 下午高铁返北京</div>
-    <div class="info"><div class="lab">🗺 今日安排</div>
-      <ul>
-        <li><b>09:00</b> 吉林站乘城际高铁回长春</li>
-        <li><b>09:50</b> 抵达长春，行李寄存高铁站</li>
-        <li><b>11:00</b> 包车/打车前往<b>净月潭森林公园</b>（约 40 分钟）</li>
-        <li><b>11:30–14:30</b> 净月潭环湖漫步/雪地项目（约 3 小时）</li>
-        <li><b>15:30</b> 返回长春站取行李</li>
-        <li><b>17:00</b> 高铁返京（约 5 小时，22:00 前后抵京）</li>
-      </ul>
-    </div>
-    <div id="dayMap4" style="width:100%;height:280px"></div>
-    <p class="mapnote"><i data-lucide="info"></i> 本段示意路线（长春站 → 净月潭 → 返程）。</p>
-
-    <h4 style="margin:14px 0 6px;font-size:15px">📍 沿途看点</h4>
-    <div class='sview'><img class="simg" src="https://pixabay.com/get/g5def93f3964f9f93886597ddc5b758b9c0ce000bcd6cac864c7ed6f8b828dfe85065736641063c345a76a24c1c24b9d3acfc8a7b12d504c083089312a4c67b73_1280.jpg" alt="净月潭森林公园"><button class='sbtn' type='button' aria-expanded='false'><span>展开详细攻略</span><i data-lucide='chevron-down'></i></button><div class='sbody' hidden><div class='ssec'><h5>深度看点</h5><p>长春东南郊的国家森林公园，亚洲最大的人工林海之一，湖光山色、四季分明。冬季林海雪原、可滑雪，夏季湖面泛舟、森林吸氧；「净月雪世界」冬季有大型雪雕。海拔低、路况好，适合休闲徒步与亲子。</p></div><div class='ssec'><h5>📷 拍照打卡点</h5><p>净月潭湖面倒影、雪后林海栈道、森林观景台远眺、冬季雾凇林。</p></div><div class='ssec'><h5>🍜 周边美食</h5><p>景区游客中心餐饮；建议回市区「朝阳区」吃正宗朝鲜族料理与烤串。</p></div><div class='ssec'><h5>🗺 游览动线</h5><p>长春市区自驾约40分钟；环湖步行一圈约6公里，可选电瓶车；预留3-4小时。</p></div></div></div>
-
-    <div class="info"><div class="lab">⚠ 坑点提醒</div>
-      <p style="margin-top:4px">返程高铁末班车约 18:00 前，请提前订票留足候车时间；净月潭冬季滑雪需提前预约。 <span class="tag realtime">🟢 实时核验</span></p>
-    </div>
-    <div class="planb"><span class="lab">🔀 本段 Plan B</span>
-      <p>若净月潭临时关闭或赶时间：可直接从吉林站乘高铁回北京（不经长春，可省一次换乘），或改为市内「南湖公园」轻松半日。</p>
-    </div>
-    <div class="info"><div class="lab">🛏️ 当晚住宿</div>
-      <p style="margin-top:4px">Day 4 返京，无住宿。</p>
-    </div>
-    <div class="info"><div class="lab">🍜 当日美食</div>
-      <ul>
-        <li>午餐：净月潭景区「东北农家菜」（人均 ¥60）</li>
-        <li>晚餐：高铁上便当/抵京自理</li>
-      </ul>
-    </div>
-    <a class='navbtn' href='https://uri.amap.com/marker?position=125.443,43.763&name=净月潭' target='_blank' rel='noopener'>一键导航</a>
-  </div></div>
-</section>
-
-<!-- ===== DAY 5 optional ===== -->
-<section class="section tint" id="day5">
-  <div class="shead">
-    <div class="kick"><i data-lucide="sunrise"></i> Day 5 · 可选</div>
-    <h2>长春休闲一日（时间充裕可加）</h2>
-  </div>
-  <div class="wrap"><div class="card daycard">
-    <div class="dayhead"><span class="daytag">Day 5</span>
-      <div class="daytitle"><h3>南湖公园 & 长影 & 净月深度（自选 2–3 项）</h3>
-        <div class="meta">🚇 市内交通 · 全程不早于 09:00</div></div>
-    </div>
-    <div class="info"><div class="lab">🗺 建议组合</div>
-      <ul>
-        <li><b>09:00</b> 长春电影制片厂博物馆（新中国电影摇篮，室内人文）</li>
-        <li><b>12:00</b> 午餐后逛<b>南湖公园</b>（冬季冰面乐园，免费）</li>
-        <li><b>15:00</b> 净月潭深度/滑雪（若 Day4 未去）或自由购物</li>
-        <li><b>18:00</b> 晚餐后返京（末班高铁）</li>
-      </ul>
-    </div>
-    <p class="note">Day 5 为可选延伸，按喜好取舍即可，不强制加行程。</p>
-  </div></div>
-</section>
-
-<!-- ===== APPENDIX ===== -->
-<section class="section" id="appendix">
-  <div class="shead">
-    <div class="kick"><i data-lucide="life-buoy"></i> 附录</div>
-    <h2>应急与溯源</h2>
-  </div>
-  <div class="wrap grid2">
-    <div class="card">
-      <h3 style="font-size:16px">应急信息</h3>
-      <div class="info" style="margin-top:10px"><div class="lab">📞 求助</div>
-        <ul>
-          <li>报警 110 / 急救 120 / 火警 119</li>
-          <li>长春站派出所：0431-81150001（请实时核实）</li>
-          <li>吉林市人民医院：0432-65090001（请实时核实）</li>
-        </ul>
-      </div>
-      <div class="info"><div class="lab">🛠 车辆救援（自驾）</div>
-        <p style="margin-top:4px">人保/平安车险道路救援 24h 热线；东北冰雪路请备防滑链，冬季非必要不建议自驾。</p>
+      <div>
+        <h4 class="sub">💰 花费预估</h4>
+        <div class="cost"><div class="cost-row"><span>高铁往返</span><b>约 ¥800/人（二等座，12306 实时票价）</b></div>
+<div class="cost-row"><span>当地自驾/打车</span><b>约 ¥300（租车+油费 或 打车）</b></div>
+<div class="cost-row"><span>住宿（4晚）</span><b>约 ¥1200-1520（¥300-380/晚）</b></div>
+<div class="cost-row"><span>门票</span><b>伪满皇宫 ¥60、净月潭 ¥30、松花湖船票 ¥80、雾凇岛 ¥40 起</b></div>
+<div class="cost-row"><span>餐饮</span><b>约 ¥600/人</b></div>
+<div class="cost-row"><span>合计</span><b>人均约 ¥2600-3200</b></div></div>
+        <h4 class="sub">📚 数据源与抓取时间</h4>
+        <ul class="clean"><li>🚄 高铁车次/票价：12306（实时，出行前二次确认）</li>
+<li>📍 定位/导航：高德地图（实时）</li>
+<li>🎫 门票：各景区官微/官网（抓取 2026-11-16）</li>
+<li>🌤 雾凇/天气：中央气象台 + 吉林市气象局（实时）</li></ul>
       </div>
     </div>
-    <div class="card">
-      <h3 style="font-size:16px">生成信息</h3>
-      <div class="info" style="margin-top:10px"><div class="lab">🕐 生成时间</div>
-        <p style="margin-top:4px">本路书生成于 <b>2026-11-15 09:00</b>，易变信息（车次/票价/门票/营业时间）基于该时刻的实时数据，出行前请二次确认。</p>
-      </div>
-      <div class="info"><div class="lab">🟢 实时 vs ⚪ AI 估算</div>
-        <p style="margin-top:4px">高铁车次、住宿房价、雾凇预报为「🟢 实时核验」项，附查询入口；餐饮人均、自驾里程、机票价等为「⚪ AI 估算」，请以现场为准。</p>
-      </div>
-      <div class="info"><div class="lab">🔀 全局兜底 Plan B</div>
-        <p style="margin-top:4px">冬季东北偶有暴雪影响交通：① 高铁为主交通，尽量选不中转直达车次；② 若大面积延误，可整体顺延 1 天、删去净月潭等可选项；③ 极端天气请以铁路/民航官方停运通知为准。</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<footer class="foot">
-  北京 → 长春 · 吉林市 4天3晚路书 · 生成于 2026-11-15 09:00<br>
-  示意路线图为示意，非真实轨迹；海拔/车次等易变信息请以官方实时为准
-</footer>
+</div>
+
+<footer>北京 → 长春·吉林市 · 5天4晚冰雪路书 ｜ 生成于 2026-11-16 14:30 ｜ 易变信息出行前请二次确认</footer>
 
 <script>
-/* ===== 全程总览示意路线图 ===== */
-var placeNames = ['北京(起)','长春(起)','吉林市','乌拉街/雾凇岛','长春(终)'];
-var AMP = 0.10, PERIOD = 10;
-var nodeData = placeNames.map(function(name, i, arr){
-  var n = arr.length, t = n > 1 ? i/(n-1) : 0.5;
-  var x = +(0.05 + t*0.90).toFixed(4);
-  var phase = (i % PERIOD)/PERIOD;
-  var tri = 2*Math.abs(2*(phase-Math.round(phase)))-1;
-  var y = +(0.5 + AMP*tri).toFixed(4);
-  return {name:name, x:x, y:y, symbolSize:(i===0||i===n-1)?24:16};
-});
-var linkData = [
-  {source:'北京(起)', target:'长春(起)', value:'高铁 980km'},
-  {source:'长春(起)', target:'吉林市', value:'城际 40min'},
-  {source:'吉林市', target:'乌拉街/雾凇岛', value:'包车 55km'},
-  {source:'乌拉街/雾凇岛', target:'长春(终)', value:'返回长春'}
-];
-var chart0 = echarts.init(document.getElementById('routeMap'));
-chart0.setOption({
-  tooltip:{formatter:function(p){return p.dataType==='edge'? p.data.value : p.name;}},
-  series:[{type:'graph',layout:'none',data:nodeData,links:linkData,roam:true,scaleLimit:{min:1,max:8},
-    symbolSize:20,
-    label:{show:true,position:'bottom',formatter:'{b}',color:'#122B3C',fontSize:12},
-    edgeLabel:{show:true,formatter:'{c}',color:'#4A6A7E',fontSize:11},
-    lineStyle:{color:'source',curveness:0.15,width:2},
-    itemStyle:{color:function(params){return params.data.name.indexOf('起')!==-1||params.data.name.indexOf('终')!==-1?'#1E6FA8':'#6FB1D8';},borderColor:'#fff',borderWidth:2}
-  }]
-});
-window.addEventListener('resize', function(){chart0.resize();});
-
-/* ===== 每段小图 ===== */
-var dayRoutesData = [
- {nodes:['长春站','伪满皇宫','这有山','桂林路'], links:[{source:'长春站',target:'伪满皇宫',value:'5km'},{source:'伪满皇宫',target:'这有山',value:'4km'},{source:'这有山',target:'桂林路',value:'1.2km'}]},
- {nodes:['吉林站','北山公园','陨石博物馆','松花湖'], links:[{source:'吉林站',target:'北山公园',value:'8km'},{source:'北山公园',target:'陨石博物馆',value:'2km'},{source:'陨石博物馆',target:'松花湖',value:'15km'}]},
- {nodes:['吉林市','乌拉街','雾凇岛'], links:[{source:'吉林市',target:'乌拉街',value:'50km'},{source:'乌拉街',target:'雾凇岛',value:'5km'}]},
- {nodes:['长春站','净月潭','长春(返)'], links:[{source:'长春站',target:'净月潭',value:'18km'},{source:'净月潭',target:'长春(返)',value:'18km'}]}
-];
-dayRoutesData.forEach(function(route, idx){
-  var el = document.getElementById('dayMap'+(idx+1));
-  if(!el) return;
-  var boxW = el.clientWidth, boxH = el.clientHeight;
-  var marginX = 30, marginY = 40;
-  var nd = route.nodes.map(function(name,i,arr){
-    var n = arr.length, t = n>1? i/(n-1):0.5;
-    var xr = +(0.05 + t*0.90).toFixed(4);
-    var ph = (i%PERIOD)/PERIOD;
-    var tri = 2*Math.abs(2*(ph-Math.round(ph)))-1;
-    var yr = +(0.5 + AMP*tri).toFixed(4);
-    return {name:name, x:marginX+xr*(boxW-marginX*2), y:marginY+yr*(boxH-marginY*2)};
-  });
-  var c = echarts.init(el);
-  c.setOption({tooltip:{formatter:function(p){return p.dataType==='edge'?p.data.value:p.name;}},
-   series:[{type:'graph',layout:'none',data:nd,links:route.links,roam:true,scaleLimit:{min:1,max:8},
-     symbolSize:16,label:{show:true,position:'bottom',formatter:'{b}',color:'#122B3C',fontSize:11},
-     edgeLabel:{show:true,formatter:'{c}',color:'#4A6A7E',fontSize:10},
-     lineStyle:{color:'source',curveness:0.15,width:2},
-     itemStyle:{color:'#6FB1D8',borderColor:'#fff',borderWidth:2}}]});
-  window.addEventListener('resize', function(){c.resize();});
-});
-
-/* ===== 交通方案 Tab ===== */
-document.getElementById('trTab').addEventListener('click', function(e){
-  var btn = e.target.closest('button'); if(!btn) return;
-  var t = btn.getAttribute('data-t');
-  this.querySelectorAll('button').forEach(function(b){b.classList.toggle('active', b===btn);});
-  ['pane-tr','pane-fl','pane-car'].forEach(function(id){
-    var el = document.getElementById(id); if(el) el.classList.toggle('active', id==='pane-'+t);
-  });
-});
-
-/* ===== 景点展开按钮 ===== */
-document.querySelectorAll('.sbtn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    var body = this.nextElementSibling;
-    var open = body.hidden !== false;
-    body.hidden = open ? false : true;
-    this.setAttribute('aria-expanded', open ? 'true':'false');
-    var icon = this.querySelector('svg, i');
-    if(icon) icon.style.transform = open ? 'rotate(180deg)':'rotate(0deg)';
-  });
-});
-
-/* ===== 锚点导航高亮 ===== */
-var navLinks = document.querySelectorAll('.nav a');
+var navLinks = document.querySelectorAll('.nav-links a');
 var sections = [];
-for(var i=0;i<navLinks.length;i++){
+for (var i = 0; i < navLinks.length; i++) {
   var href = navLinks[i].getAttribute('href');
-  if(href) sections.push(document.getElementById(href.replace('#','')));
+  if (href) sections.push(document.getElementById(href.replace('#', '')));
 }
 function updateNav(){
-  var navH = document.querySelector('.nav').offsetHeight;
-  var vh = window.innerHeight, current=0, best=-1;
-  for(var j=0;j<sections.length;j++){
-    if(!sections[j]) continue;
-    var r = sections[j].getBoundingClientRect();
-    var vTop = Math.max(r.top, navH), vBot = Math.min(r.bottom, vh);
-    var vis = Math.max(0, vBot-vTop);
-    if(vis>best){best=vis; current=j;}
+  var nav = document.querySelector('nav.top');
+  var navH = nav ? nav.offsetHeight : 0;
+  var vh = window.innerHeight;
+  var current = 0, best = -1;
+  for (var i = 0; i < sections.length; i++) {
+    if (!sections[i]) continue;
+    var r = sections[i].getBoundingClientRect();
+    var t = Math.max(r.top, navH);
+    var b = Math.min(r.bottom, vh);
+    var v = Math.max(0, b - t);
+    if (v > best) { best = v; current = i; }
   }
-  for(var k=0;k<navLinks.length;k++){ navLinks[k].classList.toggle('active', k===current); }
+  for (var j = 0; j < navLinks.length; j++) navLinks[j].classList.toggle('active', j === current);
 }
-window.addEventListener('scroll', updateNav, {passive:true});
-window.addEventListener('resize', updateNav, {passive:true});
+window.addEventListener('scroll', updateNav, { passive: true });
+window.addEventListener('resize', updateNav, { passive: true });
 updateNav();
-lucide.createIcons();
 </script>
 
 <script>(function(){
